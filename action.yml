@@ -1,0 +1,22 @@
+name: 'Sign GitHub App token with Azure'
+description: 'Sign GitHub App token with private key stored in Azure KeyVault'
+inputs:
+  gh-app-client-id:
+    description: 'The Client ID of the GitHub App to sign the token for'
+    required: true
+  token-duration:
+    description: 'The duration in seconds for which the token will be valid'
+    required: false
+    default: '300'
+  key-vault-name:
+    description: 'The name of the Azure Key Vault resource that holds the GitHub App private key'
+    required: true
+  key-name:
+    description: 'The name of the key in the Azure Key Vault resource that holds the GitHub App private key'
+    required: true
+outputs:
+  gh_token:
+    description: 'The resulting GitHub token, signed with the key stored in Azure Key Vault'
+runs:
+  using: 'node20'
+  main: 'index.js'
