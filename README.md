@@ -47,11 +47,16 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Sign GitHub App token with Azure
+      id: sign_token
       uses: bcc-code/az-keyvault-sign-token@v1
       with:
         gh-app-client-id: ${{ vars.GITHUB_APP_CLIENT_ID }}
         key-vault-name: ${{ vars.AZURE_KEY_VAULT_NAME }}
         key-name: 'gh-app-pem'
+    
+    - name: Use the signed token
+      run: |
+        echo "Signed token: ${{ steps.sign_token.outputs.gh_token }}"
 ```
 
 ## License
