@@ -38,17 +38,18 @@ try {
     `https://${keyVaultName}.vault.azure.net`,
     credential
   );
-  const keyVaultKey = await serviceClient.getKey(keyName);
 
-  if (keyVaultKey?.name) {
-    const cryptoClient = new CryptographyClient(keyVaultKey, credential);
-    const { result: signature } = await cryptoClient.sign(KnownSignatureAlgorithms.RS256, jwtDataDigest);
-    const jwtSignature = urlBase64encode(signature);
-
-    const ghToken = `${jwtData}.${jwtSignature}`;
-    core.setSecret(ghToken);
-    core.setOutput('gh_token', ghToken);
-  }
+  serviceClient.getKey(keyName).then(async (keyVaultKey) => {
+    if (keyVaultKey?.name) {
+      const cryptoClient = new CryptographyClient(keyVaultKey, credential);
+      const { result: signature } = await cryptoClient.sign(KnownSignatureAlgorithms.RS256, jwtDataDigest);
+      const jwtSignature = urlBase64encode(signature);
+  
+      const ghToken = `${jwtData}.${jwtSignature}`;
+      core.setSecret(ghToken);
+      core.setOutput('gh_token', ghToken);
+    }
+  });
 } catch (error) {
   core.setFailed(error.message);
 }
