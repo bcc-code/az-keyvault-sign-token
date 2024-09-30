@@ -1,0 +1,31 @@
+{
+  "name": "az-keyvault-sign-token",
+  "version": "1.0.0",
+  "description": "Script for enabling GitHub Action to sign a GitHub App token using a key stored in Azure Key Vault",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcc-code/az-keyvault-sign-token.git"
+  },
+  "keywords": [
+    "keyvault",
+    "azure",
+    "security",
+    "github",
+    "token"
+  ],
+  "author": "Adelin Niculae",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/bcc-code/az-keyvault-sign-token/issues"
+  },
+  "homepage": "https://github.com/bcc-code/az-keyvault-sign-token#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@azure/identity": "^4.4.1",
+    "@azure/keyvault-keys": "^4.8.0"
+  }
+}
