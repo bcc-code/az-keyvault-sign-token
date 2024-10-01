@@ -1,5 +1,4 @@
 const core = require('@actions/core');
-const { base64encodeJSON, urlBase64encode } = require('./utils');
 const { createHash } = require('crypto');
 const { DefaultAzureCredential } = require('@azure/identity');
 const {
@@ -52,4 +51,29 @@ try {
   });
 } catch (error) {
   core.setFailed(error.message);
+}
+
+/**
+ * @param {string} base64
+ * @returns {string}
+ */
+function urlBase64(base64) {
+  return base64.replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+}
+
+/**
+ * @param {Record<string,unknown>} obj
+ * @returns {string}
+ */
+function base64encodeJSON(obj) {
+  return urlBase64(btoa(JSON.stringify(obj)));
+}
+
+/**
+ * @param {string} str
+ * @returns {string}
+ */
+function urlBase64encode(str) {
+  const utf8Bytes = new TextEncoder().encode(str);
+  return urlBase64(btoa(String.fromCharCode(...utf8Bytes)));
 }
