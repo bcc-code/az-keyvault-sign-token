@@ -15,6 +15,8 @@ Create a private key and upload it to Azure Key Vault.
 ### Inputs
 
 * `gh-app-client-id` - The Client ID of the GitHub App to sign the token for.
+* `gh-installation-id` - The installation ID of the GitHub App. Either this or `gh-org` must be provided.
+* `gh-org` - The org to fetch the installation ID from. Either this or `gh-installation-id` must be provided.
 * `key-vault-name` - The name of the Azure Key Vault resource that holds the GitHub App private key.
 * `key-name` - The name of the key in the Azure Key Vault resource that holds the GitHub App private key.
 * `token-duration` - The duration in seconds for which the token will be valid. Default: `300`
@@ -51,6 +53,7 @@ jobs:
       uses: bcc-code/az-keyvault-sign-token@v1
       with:
         gh-app-client-id: ${{ vars.GITHUB_APP_CLIENT_ID }}
+        gh-installation-id: ${{ vars.GITHUB_APP_INSTALLATION_ID }}
         key-vault-name: ${{ vars.AZURE_KEY_VAULT_NAME }}
         key-name: 'gh-app-pem'
     
