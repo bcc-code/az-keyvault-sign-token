@@ -4,8 +4,7 @@
   "description": "Script for enabling GitHub Action to sign a GitHub App token using a key stored in Azure Key Vault",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
