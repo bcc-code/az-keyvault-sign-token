@@ -13,7 +13,13 @@ try {
   const githubAppClientId = core.getInput('gh-app-client-id');
   const keyVaultName = core.getInput('key-vault-name');
   const keyName = core.getInput('key-name');
+  const ghOrg = core.getInput('gh-org');
+  let ghInstallationId = core.getInput('gh-installation-id');
   const tokenDuration = parseInt(core.getInput('token-duration'), 10);
+
+  if (!ghInstallationId && !ghOrg) {
+    throw new Error('Either gh-installation-id or gh-org must be provided');
+  }
 
   const now = Math.floor(Date.now() / 1000);
   const nowWithSafetyMargin = now - 30;
@@ -44,7 +50,37 @@ try {
       const { result: signature } = await cryptoClient.sign(KnownSignatureAlgorithms.RS256, jwtDataDigest);
       const jwtSignature = urlBase64encode(signature);
   
-      const ghToken = `${jwtData}.${jwtSignature}`;
+      const appToken = `${jwtData}.${jwtSignature}`;
+
+      const { Octokit } = await import("@octokit/core");
+      const octokit = new Octokit({
+        auth: appToken
+      });
+
+      let ghToken;
+
+      if (ghOrg) {
+        let orgInstallation = await octokit.request(`GET /orgs/${ghOrg}/installation`, {
+          org: ghOrg,
+          headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+          }
+        })
+        ghInstallationId = orgInstallation.data.id;
+      }
+
+      if (!ghInstallationId) {
+        throw new Error('Failed to get installation ID. Make sure you have provided correct gh-org or provide gh-installation-id.');
+      }
+
+      let installationToken = await octokit.request(`POST /app/installations/${ghInstallationId}/access_tokens`, {
+        installation_id: ghInstallationId,
+        headers: {
+          'X-GitHub-Api-Version': '2022-11-28'
+        }
+      })
+      ghToken = installationToken.data.token
+
       core.setSecret(ghToken);
       core.setOutput('gh_token', ghToken);
     }

@@ -4,6 +4,14 @@ inputs:
   gh-app-client-id:
     description: 'The Client ID of the GitHub App to sign the token for'
     required: true
+  gh-installation-id:
+    description: 'The installation ID of the GitHub App'
+    required: false
+    default: ''
+  gh-org:
+    description: 'The org to fetch the installation ID from'
+    required: false
+    default: ''
   token-duration:
     description: 'The duration in seconds for which the token will be valid'
     required: false
