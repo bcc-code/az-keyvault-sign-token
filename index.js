@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const { base64encodeJSON } = require('./utils');
+const { base64encodeJSON, urlBase64encode } = require('./utils');
 const { createHash } = require('crypto');
 const { DefaultAzureCredential } = require('@azure/identity');
 const {
