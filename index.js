@@ -58,7 +58,7 @@ try {
  * @returns {string}
  */
 function urlBase64(base64) {
-  return base64.replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
 }
 
 /**
@@ -70,10 +70,11 @@ function base64encodeJSON(obj) {
 }
 
 /**
- * @param {string} str
+ * @param {string} buffer
  * @returns {string}
  */
-function urlBase64encode(str) {
-  const utf8Bytes = new TextEncoder().encode(str);
-  return urlBase64(btoa(String.fromCharCode(...utf8Bytes)));
+function urlBase64encode(buffer) {
+  // Convert the binary data (buffer) to a base64 string
+  const base64 = btoa(String.fromCharCode.apply(null, new Uint8Array(buffer)));
+  return urlBase64(base64);
 }
