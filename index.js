@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const { createHash } = require('crypto');
-const { DefaultAzureCredential } = require('@azure/identity');
+const { DefaultAzureCredential, ClientAssertionCredential } = require('@azure/identity');
 const {
   CryptographyClient,
   KeyClient,
@@ -8,7 +8,15 @@ const {
 } = require('@azure/keyvault-keys');
 
 try {
-  const credential = new DefaultAzureCredential();
+  let credential;
+  if (process.env.ARM_USE_OIDC == 'true' && process.env.ARM_TENANT_ID && process.env.ARM_CLIENT_ID && process.env.ARM_OIDC_TOKEN) {
+    const tenantID = process.env.ARM_TENANT_ID;
+    const clientID = process.env.ARM_CLIENT_ID;
+    const token = process.env.ARM_OIDC_TOKEN;
+    credential = new ClientAssertionCredential(tenantID, clientID, () => token);
+  } else {
+    credential = new DefaultAzureCredential();
+  }
 
   const githubAppClientId = core.getInput('gh-app-client-id');
   const keyVaultName = core.getInput('key-vault-name');

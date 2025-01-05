@@ -12,6 +12,8 @@ This action allows signing a GitHub App token using a key stored in Azure Key Va
 
 Create a private key and upload it to Azure Key Vault.
 
+Note: This action requires that the workflow has already logged in to Azure, either through the `az` CLI or through the `Azure/login` action. Alternatively it also supports loging in using `azurerm` Terraform provider's OIDC login method environment variables.
+
 ### Inputs
 
 * `gh-app-client-id` - The Client ID of the GitHub App to sign the token for.
