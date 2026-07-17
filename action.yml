@@ -26,5 +26,5 @@ outputs:
   gh_token:
     description: 'The resulting GitHub token, signed with the key stored in Azure Key Vault'
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
