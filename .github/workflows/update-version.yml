@@ -28,7 +28,7 @@ jobs:
         node-version: 24.18.0
     - run: |
         npm ci
-        ncc build index.js --license licenses.txt
+        npm run build
     - name: Git config
       run: |
         git config user.name "github-actions[bot]"
