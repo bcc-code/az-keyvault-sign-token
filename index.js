@@ -1,11 +1,12 @@
-const core = require('@actions/core');
-const { createHash } = require('crypto');
-const { DefaultAzureCredential, ClientAssertionCredential } = require('@azure/identity');
-const {
+import * as core from '@actions/core';
+import { createHash } from 'node:crypto';
+import { DefaultAzureCredential, ClientAssertionCredential } from '@azure/identity';
+import {
   CryptographyClient,
   KeyClient,
   KnownSignatureAlgorithms
-} = require('@azure/keyvault-keys');
+} from '@azure/keyvault-keys';
+import { Octokit } from '@octokit/core';
 
 try {
   let credential;
@@ -60,7 +61,6 @@ try {
   
       const appToken = `${jwtData}.${jwtSignature}`;
 
-      const { Octokit } = await import("@octokit/core");
       const octokit = new Octokit({
         auth: appToken
       });
