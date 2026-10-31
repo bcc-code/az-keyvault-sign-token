@@ -26,7 +26,7 @@
   "homepage": "https://github.com/bcc-code/az-keyvault-sign-token#readme",
   "dependencies": {
     "@actions/core": "^3.0.1",
-    "@azure/identity": "^4.13.1",
+    "@azure/identity": "^4.14.1",
     "@azure/keyvault-keys": "^4.10.2",
     "@octokit/core": "^7.0.6"
   },
